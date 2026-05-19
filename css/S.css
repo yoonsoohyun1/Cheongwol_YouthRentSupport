@@ -1,0 +1,41 @@
+/* 공지사항 배너 */
+#hd .notification-banner {
+    background-color: var(--p-sub-color); /* 원본 이미지의 파스텔 블루 컬러 */
+    font-size: 23px;
+    letter-spacing: -0.5px;
+}
+
+#hd {
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; 
+}
+
+/* 탑 메뉴 (Languages | Dark Mode) */
+#hd .top-menu {
+    color: #827D7D;
+    font-size: 18px;
+}
+#hd .top-menu .divider {
+    color: #827D7D;
+}
+#hd .top-menu .menu-item {
+    cursor: pointer;
+}
+
+/* 메인 네비게이션 */
+#hd .main-menu ul li a {
+    color: #1A1A1A;
+    text-decoration: none;
+    font-size: 23px;
+    letter-spacing: -0.5px;
+    transition: color 0.2s ease;
+}
+
+#hd .main-menu ul li a:hover {
+    color: var(--p-main-color); 
+}
+
+/* (옵션)자바스크립트랑 연동된 스크롤 하버스타일 */
+#hd.bg-white {
+    background-color: #ffffff !important;
+    border-bottom: 1px solid #f0f0f0;
+}
