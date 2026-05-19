@@ -1,0 +1,42 @@
+:root{
+  --p-main-color: #1C6AEF;
+  --p-sub-color: #ACCCFF;
+  --p-body-color: #4A4A4A;
+  --p-main-font :'Pretendard';
+
+}
+
+body {
+    font-family: var(--p-main-font), sans-serif;
+}
+
+.btn-primary{
+  background:var(--p-main-color);
+  color:#fff;
+  font-size: 25px;
+  font-weight:600;
+}
+
+.btn-outline{
+  border:3px solid var(--p-main-color);
+  color:var(--p-main-color);
+  font-size: 25px;
+  font-weight:600;
+}
+
+.sub-title{
+    font-size:40px;
+    color:var(--p-main-color);
+    font-weight: 700;
+}
+
+.sub-title-body{
+    font-size:30px;
+    color:var(--p-body-color);
+    font-weight: 400;
+}
+
+#hd {}
+
+.title{}
+
