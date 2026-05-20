@@ -4,6 +4,89 @@
   --p-body-color: #4A4A4A;
   --p-main-font :'Pretendard';
 
+
+  /* Brand */
+  --color-primary: #2478ff;
+  --color-primary-dark: #145edb;
+  --color-primary-sub: #2d6be3;
+  --color-mint: #57d7cf;
+  --color-navy: #282d9a;
+
+  /* Background */
+  --color-white: #ffffff;
+  --color-black: #111827;
+  --color-bg-light: #f7faff;
+  --color-card-bg: #eaf2ff;
+  --color-blue-soft: #edf2fb;
+  --color-blue-line: #dbe7ff;
+  --color-blue-line-soft: #e5eeff;
+  --color-footer-bg: #f5f8ff;
+  --color-footer-bg-soft: #eef5ff;
+
+  /* Text */
+  --color-text-main: #111827;
+  --color-text-sub: #6b7280;
+  --color-text-muted: #5f6b7a;
+  --color-text-faq: #555555;
+
+  /* Border */
+  --color-border-blue: rgba(36, 120, 255, 0.08);
+  --color-border-blue-strong: rgba(36, 120, 255, 0.12);
+  --color-border-blue-light: rgba(36, 120, 255, 0.14);
+  --color-border-blue-soft: rgba(36, 120, 255, 0.16);
+  --color-footer-border: #dbe7ff;
+  --color-white-border: rgba(255, 255, 255, 0.38);
+
+  /* Opacity */
+  --color-white-90: rgba(255, 255, 255, 0.9);
+  --color-white-75: rgba(255, 255, 255, 0.75);
+  --color-white-55: rgba(255, 255, 255, 0.55);
+  --color-white-20: rgba(255, 255, 255, 0.2);
+  --color-primary-08: rgba(36, 120, 255, 0.08);
+  --color-mint-16: rgba(87, 215, 207, 0.16);
+  --color-mint-18: rgba(87, 215, 207, 0.18);
+  --color-mint-22: rgba(87, 215, 207, 0.22);
+  --color-mint-25: rgba(87, 215, 207, 0.25);
+
+  /* FAQ */
+  --color-faq-arrow: #5e95f5;
+
+  /* CTA */
+  --color-cta-start: #5f9df7;
+  --color-cta-end: #4f86ee;
+  --color-cta-hover: #f5f9ff;
+  --color-subscribe-hover: #f1f6ff;
+
+  /* Shadow */
+  --shadow-card-light: 0 14px 34px rgba(17, 24, 39, 0.06);
+  --shadow-card: 0 16px 36px rgba(17, 24, 39, 0.08);
+  --shadow-card-hover: 0 20px 42px rgba(36, 120, 255, 0.12);
+  --shadow-process-hover: 0 22px 46px rgba(36, 120, 255, 0.14);
+  --shadow-process-number: 0 12px 26px rgba(36, 120, 255, 0.16);
+  --shadow-hero-card: 0 22px 45px rgba(36, 120, 255, 0.13);
+  --shadow-cta: 0 20px 45px rgba(36, 120, 255, 0.18);
+  --shadow-btn-primary: 0 10px 20px rgba(36, 120, 255, 0.28);
+  --shadow-btn-primary-hover: 0 14px 26px rgba(36, 120, 255, 0.35);
+  --shadow-btn-outline: 0 10px 20px rgba(17, 24, 39, 0.12);
+  --shadow-btn-outline-hover: 0 14px 26px rgba(17, 24, 39, 0.16);
+  --shadow-faq-open: 0 12px 28px rgba(36, 120, 255, 0.08);
+
+  /* Gradient */
+  --gradient-primary-mint: linear-gradient(90deg, var(--color-primary), var(--color-mint));
+  --gradient-hero-check: linear-gradient(135deg, var(--color-primary), var(--color-mint));
+  --gradient-cta: linear-gradient(135deg, var(--color-cta-start) 0%, var(--color-cta-end) 100%);
+  --gradient-footer: linear-gradient(180deg, var(--color-footer-bg) 0%, var(--color-footer-bg-soft) 100%);
+
+  --color-change-bg: #ffffff;
+  --color-change-card-bg: #eaf2ff;
+  --color-change-card-hover: #f3f8ff;
+  --color-change-text: #5f6b7a;
+  --color-change-fade: #ffffff;
+
+  --shadow-change-card: 0 14px 34px rgba(17, 24, 39, 0.06);
+  --shadow-change-card-hover: 0 22px 46px rgba(36, 120, 255, 0.14);
+
+
 }
 
 body {
