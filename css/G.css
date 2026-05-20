@@ -1,3 +1,5 @@
+
+
 /* ===============================
    Footer CTA
 ================================ */
@@ -85,6 +87,29 @@
   box-shadow: var(--shadow-btn-outline-hover);
 }
 
+/* CTA 가운데 세로 라인 */
+#ft-cta .ft-cta-wrap {
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  #ft-cta .ft-cta-wrap::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1px;
+    height: 80%;
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+  }
+
+  #ft-cta .ft-cta-wrap .row {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 /* ===============================
    Subscribe Form
 ================================ */
@@ -142,23 +167,27 @@
 }
 
 .footer-logo img {
-  width: 210px;
+  width: 160px;
   height: auto;
 }
 
 .footer-copy {
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--color-text-sub);
 }
 
+.footer-menu {
+  margin-bottom: 0;
+}
+
 .footer-menu li + li {
-  margin-top: 22px;
+  margin-top: 12px;
 }
 
 .footer-menu a {
   display: inline-block;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 800;
   color: var(--color-text-main);
   text-decoration: none;
@@ -168,4 +197,343 @@
 .footer-menu a:hover {
   color: var(--color-primary);
   transform: translateX(4px);
+}
+
+/* ===============================
+   Responsive
+================================ */
+
+/* Tablet 이하 */
+@media (max-width: 991.98px) {
+  .process-title,
+  .faq-title {
+    font-size: 40px;
+  }
+
+  .process-subtitle {
+    font-size: 16px;
+  }
+
+  .process-hero-motion {
+    height: 250px;
+  }
+
+  .process-timeline {
+    padding-top: 0;
+  }
+
+  .process-timeline-line {
+    display: none;
+  }
+
+  .process-step {
+    padding-left: 88px;
+    text-align: left !important;
+  }
+
+  .process-step::before {
+    content: "";
+    position: absolute;
+    left: 36px;
+    top: 78px;
+    bottom: -24px;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--color-primary), var(--color-mint-25));
+  }
+
+  .process-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 72px;
+    height: 72px;
+    font-size: 24px;
+  }
+
+  .process-number::after {
+    display: none;
+  }
+
+  .process-icon {
+    width: 108px;
+    height: 108px;
+    margin: 0 0 22px;
+  }
+
+  .process-card {
+    min-height: auto;
+    margin-top: 0;
+    padding: 38px 28px 32px;
+  }
+
+  .process-card-title {
+    font-size: 23px;
+  }
+
+  .process-card-desc {
+    font-size: 16px;
+  }
+
+  .faq-item summary {
+    min-height: 72px;
+    font-size: 18px;
+    padding: 0 58px 0 28px;
+  }
+
+  .faq-answer {
+    padding: 0 28px 24px;
+  }
+
+  .faq-answer p {
+    font-size: 14px;
+  }
+
+  .ft-cta-wrap {
+    min-height: auto;
+    border-radius: 28px;
+  }
+
+  .ft-cta-title {
+    font-size: 28px;
+  }
+
+  .ft-cta-desc {
+    font-size: 15px;
+  }
+
+  .footer-logo img {
+    width: 145px;
+  }
+
+  .footer-menu a {
+    font-size: 17px;
+  }
+
+  .footer-menu li + li {
+    margin-top: 10px;
+  }
+
+  .footer-copy {
+    font-size: 13px;
+  }
+}
+
+/* Mobile 가로 / 작은 태블릿 */
+@media (max-width: 767.98px) {
+  .section-title {
+    font-size: 22px;
+  }
+
+  .section-desc,
+  .real-change-section .section-desc {
+    font-size: 16px;
+  }
+
+  .change-card {
+    flex-basis: 230px;
+    min-height: 230px;
+    padding: 28px 22px 24px;
+  }
+
+  .change-text {
+    min-height: 78px;
+    font-size: 14px;
+  }
+
+  .profile-name {
+    font-size: 14px;
+  }
+
+  .profile-name span {
+    font-size: 13px;
+  }
+
+  .change-track {
+    animation-duration: 22s;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575.98px) {
+  .section-title,
+  .process-title,
+  .faq-title {
+    font-size: 32px;
+  }
+
+  .section-desc,
+  .real-change-section .section-desc {
+    font-size: 15px;
+  }
+
+  .change-card {
+    flex-basis: 210px;
+    min-height: 220px;
+  }
+
+  .change-text {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .process-kicker {
+    font-size: 12px;
+    padding: 7px 13px;
+  }
+
+  .process-subtitle {
+    font-size: 15px;
+  }
+
+  .process-hero-motion {
+    height: 220px;
+  }
+
+  .process-hero-card-main {
+    width: 180px;
+    height: 148px;
+    border-radius: 24px;
+  }
+
+  .process-hero-card-sub {
+    min-width: 108px;
+    padding: 12px 13px;
+  }
+
+  .process-hero-card-sub span {
+    font-size: 12px;
+  }
+
+  .process-step {
+    padding-left: 76px;
+  }
+
+  .process-step::before {
+    left: 31px;
+  }
+
+  .process-number {
+    width: 62px;
+    height: 62px;
+    font-size: 21px;
+  }
+
+  .process-icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .process-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+
+  .process-card {
+    padding: 30px 22px 26px;
+    border-radius: 22px;
+  }
+
+  .process-card-title {
+    font-size: 21px;
+  }
+
+  .process-card-desc {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .faq-item,
+  .faq-item[open] {
+    border-radius: 24px;
+  }
+
+  .faq-item summary {
+    min-height: 64px;
+    font-size: 16px;
+    padding: 16px 48px 16px 22px;
+  }
+
+  .faq-item summary::after {
+    right: 22px;
+    width: 11px;
+    height: 11px;
+  }
+
+  .faq-answer {
+    padding: 0 22px 20px;
+  }
+
+  .faq-answer p {
+    font-size: 13px;
+  }
+
+  .ft-cta-wrap {
+    border-radius: 22px;
+  }
+
+  .ft-cta-title {
+    font-size: 23px;
+  }
+
+  .ft-cta-desc {
+    font-size: 14px;
+  }
+
+  .ft-cta-btn {
+    min-width: 130px;
+    height: 48px;
+    padding: 0 22px;
+    font-size: 15px;
+    gap: 8px;
+  }
+
+  .ft-cta-btn::after {
+    font-size: 25px;
+  }
+
+  .ft-subscribe-form {
+    height: auto;
+    padding: 8px;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 20px;
+  }
+
+  .ft-subscribe-input {
+    width: 100%;
+    height: 42px;
+    text-align: center;
+  }
+
+  .ft-subscribe-btn {
+    width: 100%;
+    height: 42px;
+  }
+
+  .footer-logo img {
+    width: 125px;
+  }
+
+  .footer-menu a {
+    font-size: 15px;
+  }
+
+  .footer-menu li + li {
+    margin-top: 8px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+  }
+}
+
+/* Motion 최소화 설정 */
+@media (prefers-reduced-motion: reduce) {
+  .change-track,
+  .process-hero-orbit,
+  .process-hero-card,
+  .process-hero-dot {
+    animation: none;
+  }
 }
