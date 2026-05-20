@@ -1,21 +1,24 @@
 :root{
-  --p-main-color: #1C6AEF;
-  --p-sub-color: #ACCCFF;
-  --p-body-color: #4A4A4A;
-  --p-main-font :'Pretendard';
+  /* --color-primary: #1C6AEF; */
+  /* --p-sub-color: #ACCCFF; */
+  /* --p-body-color: #4A4A4A; */
+  --p-main-font :'Pretendard',sans-serif;
 
+  /* Top Banner */
+  --color-top-banner: #ACCCFF;
 
   /* Brand */
-  --color-primary: #2478ff;
+  --color-primary: #1C6AEF;
   --color-primary-dark: #145edb;
-  --color-primary-sub: #2d6be3;
+  --color-primary-sub: #080808;
   --color-mint: #57d7cf;
   --color-navy: #282d9a;
 
   /* Background */
   --color-white: #ffffff;
   --color-black: #111827;
-  --color-bg-light: #f7faff;
+  /* --color-bg-light: #f7faff; */
+  --color-bg-light: #E3EDFD;
   --color-card-bg: #eaf2ff;
   --color-blue-soft: #edf2fb;
   --color-blue-line: #dbe7ff;
@@ -27,7 +30,7 @@
   --color-text-main: #111827;
   --color-text-sub: #6b7280;
   --color-text-muted: #5f6b7a;
-  --color-text-faq: #555555;
+  --color-text-faq: #4A4A4A;
 
   /* Border */
   --color-border-blue: rgba(36, 120, 255, 0.08);
@@ -94,32 +97,27 @@ body {
 }
 
 .btn-primary{
-  background:var(--p-main-color);
+  background:var(--color-primary);
   color:#fff;
   font-size: 25px;
   font-weight:600;
 }
 
 .btn-outline{
-  border:3px solid var(--p-main-color);
-  color:var(--p-main-color);
+  border:3px solid var(--color-primary);
+  color:var(--color-primary);
   font-size: 25px;
   font-weight:600;
 }
 
 .sub-title{
-    font-size:40px;
-    color:var(--p-main-color);
+    font-size:30px;
+    color:var(--color-primary);
     font-weight: 700;
 }
 
 .sub-title-body{
-    font-size:30px;
-    color:var(--p-body-color);
+    font-size:20px;
+    color:var(--color-text-faq);
     font-weight: 400;
 }
-
-#hd {}
-
-.title{}
-
