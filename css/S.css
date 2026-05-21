@@ -1,3 +1,7 @@
+.main-bg {
+    background-color: var(--color-bg-light);
+}
+
 /* ==========================================================================
    상단배너
    ========================================================================== */
@@ -161,9 +165,9 @@
    현실 섹션
    ========================================================================== */
 
-#real {
+/* #real {
     background-color: var(--color-bg-light);
-}
+} */
 
 /* 카드 크기 */
 #real .reality-card {
@@ -220,9 +224,9 @@
    ========================================================================== */
 
 /* 필터버튼 */
-#chart {
+/* #chart {
     background-color: var(--color-bg-light);
-}
+} */
 
 #chart .filter-box {
     border: none;
@@ -369,10 +373,10 @@
    chore 전체 섹션
 ========================= */
 
-#chore {
+/* #chore .chore-section {
     background-color: var(--color-bg-light);
     overflow: hidden;
-}
+} */
 
 /* 카드 전체 감싸는 영역 */
 
@@ -557,4 +561,106 @@
         line-height: 1.6;
     }
 
+}
+
+
+/* =========================
+   Quick 섹션
+========================= */
+
+#quick {
+    position: fixed;
+}
+
+/* 메인 퀵메뉴 바 */
+#quick .quick-bar {
+    background-color: #7CAAFE;
+    width: 64px;
+    height: 400px;
+    padding: 8px 0;
+    border-radius: 32px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#quick .quick-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    font-size: 11px;
+    letter-spacing: -0.5px;
+    transition: opacity 0.2s ease;
+    line-height: 1.2;
+    cursor: pointer;
+    height: 45px;
+}
+
+#quick .quick-item img {
+    width: 18px;
+    height: 18px;
+    margin-bottom: 2px;
+    object-fit: contain;
+}
+
+#quick .quick-item:hover {
+    opacity: 0.7;
+}
+
+/* 구분선 */
+#quick .quick-item:not(:last-child) {
+    position: relative;
+}
+#quick .quick-item:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 15%;
+    width: 70%;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#quick .disabled-item {
+    cursor: default;
+    opacity: 1 !important;
+}
+
+/* 탑 버튼 독립 */
+#quick .btn-top {
+    background-color: #7CAAFE;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+    flex-shrink: 0;
+}
+#quick .btn-top:hover {
+    transform: translateY(-3px);
+    opacity: 0.9;
+}
+
+@media (max-width: 575px) {
+    #quick {
+        display: none !important;
+    }
+}
+
+
+#quick .quick-item img {
+    width: 24px; 
+    height: 24px;
+    margin-bottom: 4px;
+    object-fit: contain;
+}
+
+
+#quick .disabled-item img {
+    width: 32px !important; 
+    height: 32px !important;
+    margin-bottom: 0;        
 }
