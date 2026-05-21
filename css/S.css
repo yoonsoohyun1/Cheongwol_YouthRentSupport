@@ -363,3 +363,198 @@
     #chart .content-row .text-start { text-align: center !important; margin-bottom: 2rem; }
     #chart .metric-col::after { display: none; }
 }
+
+
+/* =========================
+   chore 전체 섹션
+========================= */
+
+#chore {
+    background-color: var(--color-bg-light);
+    overflow: hidden;
+}
+
+/* 카드 전체 감싸는 영역 */
+
+#chore .chore-wrap {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* 카드 영역 */
+
+#chore .chore-item {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+
+    transition:
+        flex 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* hover 시 전체 카드 살짝 줄어듦 */
+
+#chore .chore-wrap:hover .chore-item {
+    flex: 0.9;
+}
+
+/* hover된 카드만 확장 */
+
+#chore .chore-wrap .chore-item:hover {
+    flex: 1.25;
+}
+
+/* 실제 카드 박스 */
+
+#chore .chore-card {
+    position: relative;
+    width: 100%;
+    height: 435px;
+
+    overflow: hidden;
+}
+
+/* 이미지 영역 */
+
+#chore .chore-img-wrap {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#chore .chore-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    transform: scale(1);
+
+    transition:
+        transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+        filter 0.6s ease;
+}
+
+/* hover 시 이미지 확대 */
+
+#chore .chore-item:hover img {
+    transform: scale(1.06);
+}
+
+/* 이미지 어두운 오버레이 */
+
+#chore .chore-overlay {
+    position: absolute;
+    inset: 0;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(0, 0, 0, 0.72),
+            rgba(0, 0, 0, 0.22)
+        );
+
+    z-index: 1;
+}
+
+/* 카드 내부 텍스트 */
+
+#chore .chore-content {
+    position: absolute;
+
+    left: 42px;
+    bottom: 42px;
+
+    z-index: 5;
+
+    transition:
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+        opacity 0.4s ease;
+}
+
+/* hover 시 텍스트 살짝 위로 이동 */
+
+/* #chore .chore-item:hover .chore-content {
+    transform: translateY(-8px);
+} */
+
+/* 카드 제목 */
+
+#chore .chore-card-title {
+    font-size: 36px;
+    line-height: 1.2;
+    color: #fff;
+}
+
+/* 카드 설명글 */
+
+#chore .chore-card-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    word-break: keep-all;
+    color: #fff;
+}
+
+/* 태블릿 반응형 */
+
+@media (max-width: 991px) {
+
+    /* 세로 정렬 */
+
+    #chore .chore-wrap {
+        flex-direction: column;
+    }
+
+    /* hover 효과 제거 */
+
+    #chore .chore-item,
+    #chore .chore-wrap:hover .chore-item,
+    #chore .chore-wrap .chore-item:hover {
+        flex: 1;
+    }
+
+    /* 카드 높이 축소 */
+
+    #chore .chore-card {
+        height: 300px;
+    }
+
+    /* 텍스트 위치 조정 */
+
+    #chore .chore-content {
+        left: 28px;
+        bottom: 28px;
+    }
+
+    /* 제목 크기 축소 */
+
+    #chore .chore-card-title {
+        font-size: 2rem;
+    }
+
+}
+
+/* 모바일 반응형 */
+
+@media (max-width: 575px) {
+
+    /* 카드 높이 축소 */
+
+    #chore .chore-card {
+        height: 240px;
+    }
+
+    /* 카드 제목 축소 */
+
+    #chore .chore-card-title {
+        font-size: 1.7rem;
+    }
+
+    /* 설명글 축소 */
+
+    #chore .chore-card-desc {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+}
