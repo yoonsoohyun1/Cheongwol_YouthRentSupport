@@ -1,4 +1,1287 @@
-#hero{
-    height:800px;
-    background-color: red;
+/* ===============================
+   실제 변화 / Endless Carousel
+================================ */
+
+.real-change-section {
+  background: var(--color-white, #fff);
+}
+
+.real-change-section .section-label {
+  color: var(--color-primary, #2478ff);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.real-change-section .section-title {
+  color: var(--color-text-dark, #111);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* 바깥 영역 */
+.change-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 움직이는 트랙 */
+.change-track {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 14px;
+  width: max-content;
+  animation: changeMarquee 18s linear infinite !important;
+  will-change: transform;
+}
+
+.change-carousel:hover .change-track {
+  animation-play-state: paused;
+}
+
+/* 카드 */
+.change-card {
+  flex: 0 0 190px;
+  height: 248px;
+  padding: 18px 14px 16px;
+  border-radius: 14px;
+  background: var(--color-bg-light, #eaf2ff);
+  text-align: center;
+
+  display: grid;
+  grid-template-rows: 30px 1fr 38px 22px;
+  align-items: center;
+}
+
+/* 따옴표는 항상 같은 위치 */
+.quote-mark {
+  grid-row: 1;
+  height: 30px;
+  color: var(--color-primary, #2478ff);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* 후기 문장 18px 유지 + 중앙 정렬 */
+.change-message {
+  grid-row: 2;
+  margin: 0;
+  color: var(--color-text-gray, #666);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.45;
+  word-break: keep-all;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 프로필 이미지는 항상 아래 고정 */
+.change-avatar {
+  grid-row: 3;
+  display: block;
+  width: 34px;
+  height: 34px;
+  margin: 0 auto;
+  border: 1px solid var(--color-primary-light, #b9d7ff);
+  border-radius: 50%;
+  background: var(--color-white, #fff);
+  object-fit: cover;
+}
+
+/* 이름 + 직업도 항상 맨 아래 고정 */
+.change-user {
+  grid-row: 4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  line-height: 1;
+}
+
+.change-name {
+  color: var(--color-text-dark, #111);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.change-job {
+  color: var(--color-primary, #2478ff);
+  font-size: 12px;
+  font-weight: 600;
+}
+/* 무한 슬라이드 */
+@keyframes changeMarquee {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* 모바일 */
+@media (max-width: 575px) {
+  .real-change-section .section-label {
+    font-size: 1.25rem;
+  }
+
+  .change-card {
+    flex: 0 0 150px;
+    height: 208px;
+    padding: 14px 10px 12px;
+  }
+
+  .change-message {
+    font-size: 12px;
+  }
+
+  .change-name {
+    font-size: 12px;
+  }
+
+  .change-job {
+    font-size: 11px;
+  }
+}
+
+.change-carousel:hover .change-track,
+.change-track:hover {
+  animation-play-state: paused !important;
+}
+
+/* ===============================
+   Process Section
+   Timeline UI
+   slide-up 제거 완료
+================================ */
+
+
+.process-section {
+  position: relative;
+  
+}
+
+.process-head {
+  position: relative;
+}
+
+.process-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: var(--color-primary-08);
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.process-kicker::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-mint);
+  box-shadow: 0 0 0 6px var(--color-mint-16);
+}
+
+.process-title {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--color-primary);
+}
+
+.process-subtitle {
+  max-width: 520px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--color-text-main);
+}
+
+/* Hero motion visual */
+.process-hero-motion {
+  position: relative;
+  width: min(100%, 420px);
+  height: 280px;
+}
+
+.process-hero-orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-blue-soft);
+  animation: processOrbit 8s linear infinite;
+}
+
+.process-hero-orbit-01 {
+  inset: 24px 42px 28px;
+}
+
+.process-hero-orbit-02 {
+  inset: 58px 84px 70px;
+  animation-duration: 6s;
+  animation-direction: reverse;
+}
+
+.process-hero-card {
+  position: absolute;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-border-blue-strong);
+  box-shadow: var(--shadow-hero-card);
+}
+
+.process-hero-card-main {
+  left: 50%;
+  top: 50%;
+  width: 210px;
+  height: 168px;
+  padding: 18px;
+  border-radius: 28px;
+  transform: translate(-50%, -50%);
+  animation: processMainFloat 3.5s ease-in-out infinite;
+}
+
+.process-hero-card-top {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.process-hero-card-top span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--color-blue-line);
+}
+
+.process-hero-check {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: var(--gradient-hero-check);
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.process-hero-line {
+  height: 8px;
+  margin: 9px auto 0;
+  border-radius: 999px;
+  background-color: var(--color-blue-line-soft);
+}
+
+.process-hero-line-lg {
+  width: 128px;
+}
+
+.process-hero-line-md {
+  width: 96px;
+}
+
+.process-hero-line-sm {
+  width: 68px;
+}
+
+.process-hero-card-sub {
+  min-width: 122px;
+  padding: 14px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.process-hero-card-sub strong {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--color-blue-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.process-hero-card-sub span {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  white-space: nowrap;
+}
+
+.process-hero-card-left {
+  left: 10px;
+  bottom: 40px;
+  animation: processFloat 4s ease-in-out infinite 0.35s;
+}
+
+.process-hero-card-right {
+  right: 4px;
+  top: 34px;
+  animation: processFloat 4.2s ease-in-out infinite 0.65s;
+}
+
+.process-hero-dot {
+  position: absolute;
+  border-radius: 50%;
+  background-color: var(--color-mint);
+  box-shadow: 0 10px 22px var(--color-mint-22);
+  animation: processPulse 2.4s ease-in-out infinite;
+}
+
+.process-hero-dot-01 {
+  width: 14px;
+  height: 14px;
+  left: 72px;
+  top: 42px;
+}
+
+.process-hero-dot-02 {
+  width: 18px;
+  height: 18px;
+  right: 78px;
+  bottom: 42px;
+  animation-delay: 0.45s;
+}
+
+.process-hero-dot-03 {
+  width: 10px;
+  height: 10px;
+  right: 28px;
+  bottom: 108px;
+  animation-delay: 0.8s;
+}
+
+/* Timeline */
+.process-timeline {
+  position: relative;
+  padding-top: 26px;
+}
+
+.process-timeline-line {
+  position: absolute;
+  top: 66px;
+  left: 16.666%;
+  right: 16.666%;
+  height: 3px;
+  border-radius: 999px;
+  background-color: var(--color-border-blue-light);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.process-timeline-line::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border-radius: inherit;
+  background: var(--gradient-primary-mint);
+}
+
+.process-step {
+  position: relative;
+  z-index: 1;
+}
+
+.process-number {
+  position: relative;
+  z-index: 2;
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  border: 3px solid var(--color-primary);
+  box-shadow: var(--shadow-process-number);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--color-primary-sub);
+}
+
+.process-number::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -70px;
+  width: 2px;
+  height: 54px;
+  background-image: linear-gradient(var(--color-primary) 55%, transparent 0%);
+  background-position: right;
+  background-size: 2px 10px;
+  background-repeat: repeat-y;
+  transform: translateX(-50%);
+}
+
+.process-icon {
+  width: 118px;
+  height: 118px;
+  margin-top: 76px;
+  border-radius: 50%;
+  background-color: var(--color-blue-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 10px var(--color-white-55);
+}
+
+.process-icon-img {
+  width: 75px;
+  height: 75px;
+  object-fit: contain;
+}
+.process-card {
+  margin-top: 30px;
+  min-height: 280px;
+  padding: 46px 32px 38px;
+  border-radius: 28px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border-blue);
+}
+
+.process-card-title {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--color-primary);
+  margin-bottom: 18px;
+}
+
+.process-card-bar {
+  display: inline-block;
+  width: 52px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--gradient-primary-mint);
+  margin-bottom: 22px;
+}
+
+.process-card-desc {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.85;
+  color: var(--color-text-muted);
+}
+
+.process-card,
+.process-icon,
+.process-number {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-step:hover .process-card {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-process-hover);
+}
+
+.process-step:hover .process-icon {
+  transform: translateY(-5px);
+}
+
+.process-step:hover .process-number {
+  transform: translateY(-4px);
+}
+
+@keyframes processFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes processMainFloat {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+}
+
+@keyframes processOrbit {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes processPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.72;
+  }
+
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+
+/* ===============================
+   Process Scroll Repeat Animation
+================================ */
+
+/* JS가 정상 연결됐을 때만 처음에 숨김 */
+body.motion-ready .process-kicker,
+body.motion-ready .process-title,
+body.motion-ready .process-subtitle,
+body.motion-ready .process-hero-motion,
+body.motion-ready .process-step {
+  opacity: 0;
+  transform: translateY(38px);
+}
+
+/* 화면에 들어왔을 때 실행 */
+body.motion-ready .process-section.is-motion .process-kicker,
+body.motion-ready .process-section.is-motion .process-title,
+body.motion-ready .process-section.is-motion .process-subtitle,
+body.motion-ready .process-section.is-motion .process-hero-motion,
+body.motion-ready .process-section.is-motion .process-step {
+  animation-name: processSlideUp;
+  animation-duration: 0.75s;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  animation-fill-mode: forwards;
+}
+
+/* 순차 등장 */
+body.motion-ready .process-section.is-motion .process-kicker {
+  animation-delay: 0.05s;
+}
+
+body.motion-ready .process-section.is-motion .process-title {
+  animation-delay: 0.16s;
+}
+
+body.motion-ready .process-section.is-motion .process-subtitle {
+  animation-delay: 0.27s;
+}
+
+body.motion-ready .process-section.is-motion .process-step:nth-child(1) {
+  animation-delay: 0.4s;
+}
+
+body.motion-ready .process-section.is-motion .process-step:nth-child(2) {
+  animation-delay: 0.55s;
+}
+
+body.motion-ready .process-section.is-motion .process-step:nth-child(3) {
+  animation-delay: 0.7s;
+}
+
+/* 타임라인 선 기본 상태 */
+.process-timeline-line::after {
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+/* 화면에 들어왔을 때 타임라인 선 실행 */
+body.motion-ready .process-section.is-motion .process-timeline-line::after {
+  animation: processLineFill 1.1s ease forwards;
+  animation-delay: 0.55s;
+}
+
+/* Slide-up */
+@keyframes processSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(38px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Timeline line */
+@keyframes processLineFill {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+/* ===============================
+   FAQ Section
+================================ */
+.faq-section {
+  background-color: var(--color-white);
+}
+
+.faq-title {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1.2;
+}
+
+.faq-item {
+  background-color: var(--color-blue-soft);
+  border-radius: 999px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.faq-item[open] {
+  border-radius: 28px;
+  box-shadow: var(--shadow-faq-open);
+}
+
+.faq-item summary {
+  list-style: none;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item summary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 76px;
+  padding: 0 64px 0 36px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-text-faq);
+  cursor: pointer;
+}
+
+.faq-item summary::after {
+  content: "";
+  position: absolute;
+  right: 32px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-right: 2px solid var(--color-faq-arrow);
+  border-bottom: 2px solid var(--color-faq-arrow);
+  transform: translateY(-60%) rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.faq-item[open] summary::after {
+  transform: translateY(-35%) rotate(-135deg);
+}
+
+.faq-answer {
+  padding: 0 36px 28px;
+}
+
+.faq-answer p {
+  font-size: 18px;
+  line-height: 1.75;
+  color: var(--color-text-sub);
+}
+
+.faq-item:hover {
+  transform: translateY(-2px);
+}
+ 
+ 
+ 
+ /* ===============================
+   FAQ responsive
+================================ */
+ 
+ .faq-item {
+    border-radius: 24px;
+  }
+
+  .faq-item[open] {
+    border-radius: 24px;
+  }
+
+  .faq-item summary {
+    min-height: 64px;
+    font-size: 20px;
+    padding: 16px 48px 16px 22px;
+  }
+
+  .faq-item summary::after {
+    right: 22px;
+    width: 11px;
+    height: 11px;
+  }
+
+  .faq-answer {
+    padding: 0 22px 20px;
+  }
+
+
+
+
+/* ===============================
+   Footer CTA
+================================ */
+.ft-cta-section {
+  background-color: var(--color-white);
+}
+
+.ft-cta-wrap {
+  min-height: 300px;
+  background: var(--gradient-cta);
+  border-radius: 32px;
+  box-shadow: var(--shadow-cta);
+}
+
+.ft-cta-title {
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--color-white);
+}
+
+.ft-cta-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--color-white-90);
+}
+
+/* ===============================
+   Footer CTA Button
+================================ */
+.ft-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-width: 170px;
+  height: 58px;
+  padding: 0 34px;
+  border-radius: 999px;
+  font-size: 18px;
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.ft-cta-btn::after {
+  content: "›";
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+.ft-cta-btn-fill {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-btn-primary);
+}
+
+.ft-cta-btn-fill:hover {
+  background-color: var(--color-primary-dark);
+  border-color: var(--color-primary-dark);
+  color: var(--color-white);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-btn-primary-hover);
+}
+
+.ft-cta-btn-outline {
+  background-color: var(--color-white);
+  color: var(--color-text-main);
+  border: 2px solid var(--color-primary);
+  box-shadow: var(--shadow-btn-outline);
+}
+
+.ft-cta-btn-outline::after {
+  color: var(--color-primary);
+}
+
+.ft-cta-btn-outline:hover {
+  background-color: var(--color-cta-hover);
+  color: var(--color-primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-btn-outline-hover);
+}
+
+/* CTA 가운데 세로 라인 */
+#ft-cta .ft-cta-wrap {
+  position: relative;
+}
+
+@media (min-width: 992px) {
+  #ft-cta .ft-cta-wrap::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1px;
+    height: 80%;
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translate(-50%, -50%);
+  }
+
+  #ft-cta .ft-cta-wrap .row {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* ===============================
+   Subscribe Form
+================================ */
+.ft-subscribe-form {
+  width: 100%;
+  max-width: 480px;
+  height: 56px;
+  padding: 6px;
+  background-color: var(--color-white-20);
+  border: 1px solid var(--color-white-border);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.ft-subscribe-input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  outline: none;
+  padding: 0 20px;
+  background-color: transparent;
+  color: var(--color-white);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.ft-subscribe-input::placeholder {
+  color: var(--color-white-75);
+}
+
+.ft-subscribe-btn {
+  border: none;
+  min-width: 110px;
+  height: 44px;
+  border-radius: 999px;
+  background-color: var(--color-white);
+  color: var(--color-primary);
+  font-size: 15px;
+  font-weight: 800;
+  transition: all 0.3s ease;
+}
+
+.ft-subscribe-btn:hover {
+  background-color: var(--color-subscribe-hover);
+  color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+/* ===============================
+   Footer
+================================ */
+.footer-section {
+  background: var(--gradient-footer);
+  border-top: 1px solid var(--color-footer-border);
+}
+
+.footer-logo img {
+  width: 160px;
+  height: auto;
+}
+
+.footer-copy {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-sub);
+}
+
+.footer-menu {
+  margin-bottom: 0;
+}
+
+.footer-menu li + li {
+  margin-top: 12px;
+}
+
+.footer-menu a {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  text-decoration: none;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.footer-menu a:hover {
+  color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+/* ===============================
+   Responsive
+================================ */
+
+/* Tablet 이하 */
+@media (max-width: 991.98px) {
+  .process-title,
+  .faq-title {
+    font-size: 30px;
+  }
+
+  .process-subtitle {
+    font-size: 16px;
+  }
+
+  .process-hero-motion {
+    height: 250px;
+  }
+
+  .process-timeline {
+    padding-top: 0;
+  }
+
+  .process-timeline-line {
+    display: none;
+  }
+
+  .process-step {
+    padding-left: 88px;
+    text-align: left !important;
+  }
+
+  .process-step::before {
+    content: "";
+    position: absolute;
+    left: 36px;
+    top: 78px;
+    bottom: -24px;
+    width: 3px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--color-primary), var(--color-mint-25));
+  }
+
+  .process-number {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 72px;
+    height: 72px;
+    font-size: 24px;
+  }
+
+  .process-number::after {
+    display: none;
+  }
+
+  .process-icon {
+    width: 108px;
+    height: 108px;
+    margin: 0 0 22px;
+  }
+
+  .process-card {
+    min-height: auto;
+    margin-top: 0;
+    padding: 38px 28px 32px;
+  }
+
+  .process-card-title {
+    font-size: 23px;
+  }
+
+  .process-card-desc {
+    font-size: 16px;
+  }
+
+  .faq-item summary {
+    min-height: 72px;
+    font-size: 18px;
+    padding: 0 58px 0 28px;
+    
+  }
+
+  .faq-item {
+    font-size: 23px;
+  }
+
+  .faq-answer {
+    padding: 0 28px 24px;
+      word-break: keep-all;
+  }
+  }
+
+  /* .faq-answer p {
+    font-size: 16px;
+  } */
+
+  .ft-cta-wrap {
+    min-height: auto;
+    border-radius: 28px;
+  }
+
+  .ft-cta-title {
+    font-size: 28px;
+  }
+
+  .ft-cta-desc {
+    font-size: 15px;
+  }
+
+  .footer-logo img {
+    width: 145px;
+  }
+
+  .footer-menu a {
+    font-size: 17px;
+  }
+
+  .footer-menu li + li {
+    margin-top: 10px;
+  }
+
+  .footer-copy {
+    font-size: 13px;
+  }
+
+/* Mobile 가로 / 작은 태블릿 */
+@media (max-width: 767.98px) {
+  .section-title {
+    font-size: 22px;
+  }
+
+  .section-desc,
+  .real-change-section .section-desc {
+    font-size: 16px;
+  }
+
+  .change-card {
+    flex-basis: 230px;
+    min-height: 230px;
+    padding: 28px 22px 24px;
+  }
+
+  .change-text {
+    min-height: 78px;
+    font-size: 14px;
+  }
+
+  .profile-name {
+    font-size: 14px;
+  }
+
+  .profile-name span {
+    font-size: 13px;
+  }
+
+  .change-track {
+    animation-duration: 22s;
+  }
+}
+
+/* Mobile */
+@media (max-width: 575.98px) {
+  .section-title,
+  .process-title,
+  .faq-title {
+    font-size: 32px;
+  }
+
+  .section-desc,
+  .real-change-section .section-desc {
+    font-size: 15px;
+  }
+
+  .change-card {
+    flex-basis: 210px;
+    min-height: 220px;
+  }
+
+  .change-text {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .process-kicker {
+    font-size: 12px;
+    padding: 7px 13px;
+  }
+
+  .process-subtitle {
+    font-size: 15px;
+  }
+
+  .process-hero-motion {
+    height: 220px;
+  }
+
+  .process-hero-card-main {
+    width: 180px;
+    height: 148px;
+    border-radius: 24px;
+  }
+
+  .process-hero-card-sub {
+    min-width: 108px;
+    padding: 12px 13px;
+  }
+
+  .process-hero-card-sub span {
+    font-size: 12px;
+  }
+
+  .process-step {
+    padding-left: 76px;
+  }
+
+  .process-step::before {
+    left: 31px;
+  }
+
+  .process-number {
+    width: 62px;
+    height: 62px;
+    font-size: 21px;
+  }
+
+  .process-icon {
+    width: 96px;
+    height: 96px;
+  }
+
+  .process-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+
+  .process-card {
+    padding: 30px 22px 26px;
+    border-radius: 22px;
+  }
+
+  .process-card-title {
+    font-size: 21px;
+  }
+
+  .process-card-desc {
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .faq-item,
+  .faq-item[open] {
+    border-radius: 24px;
+  }
+
+  .faq-item summary {
+    min-height: 64px;
+    font-size: 16px;
+    padding: 16px 48px 16px 22px;
+  }
+
+  .faq-item summary::after {
+    right: 22px;
+    width: 11px;
+    height: 11px;
+  }
+
+  .faq-answer {
+    padding: 0 22px 20px;
+  }
+
+  .faq-answer p {
+    font-size: 13px;
+  }
+
+  .ft-cta-wrap {
+    border-radius: 22px;
+  }
+
+  .ft-cta-title {
+    font-size: 23px;
+  }
+
+  .ft-cta-desc {
+    font-size: 14px;
+  }
+
+  .ft-cta-btn {
+    min-width: 130px;
+    height: 48px;
+    padding: 0 22px;
+    font-size: 15px;
+    gap: 8px;
+  }
+
+  .ft-cta-btn::after {
+    font-size: 25px;
+  }
+
+  .ft-subscribe-form {
+    height: auto;
+    padding: 8px;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 20px;
+  }
+
+  .ft-subscribe-input {
+    width: 100%;
+    height: 42px;
+    text-align: center;
+  }
+
+  .ft-subscribe-btn {
+    width: 100%;
+    height: 42px;
+  }
+
+  .footer-logo img {
+    width: 125px;
+  }
+
+  .footer-menu a {
+    font-size: 15px;
+  }
+
+  .footer-menu li + li {
+    margin-top: 8px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+  }
+}
+
+/* Motion 최소화 설정 */
+@media (prefers-reduced-motion: reduce) {
+  .change-track,
+  .process-hero-orbit,
+  .process-hero-card,
+  .process-hero-dot {
+    animation: none;
+  }
 }
