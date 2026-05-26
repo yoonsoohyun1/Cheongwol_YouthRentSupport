@@ -234,62 +234,130 @@ function animateSingleCounter(element, target, suffix) {
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  const items = document.querySelectorAll("#quick .quick-item[data-target], #quick .btn-top[data-target]");
-  
-  // ⚡ 속도감을 올린 고속 스르륵 애니메이션 함수
+
+  const items = document.querySelectorAll("#quick .quick-item[data-target], #quick .btn-top[data-target], #quick .mobile-quick-item[data-target]");
+
+  /* ==========================================================================
+     모바일 퀵메뉴 토글
+  ========================================================================== */
+
+  const quickToggle = document.getElementById("mobileQuickToggle");
+  const quickMenu = document.getElementById("mobileQuickMenu");
+
+  if (quickToggle && quickMenu) {
+
+    quickToggle.addEventListener("click", function () {
+      quickMenu.classList.toggle("active");
+    });
+
+  }
+
+  /* ==========================================================================
+     스무스 스크롤
+  ========================================================================== */
+
+  // ⚡ 속도감 있는 스르륵 애니메이션 함수
   function smoothScrollTo(targetPosition, duration) {
+
     const startPosition = window.scrollY || document.documentElement.scrollTop;
     const distance = targetPosition - startPosition;
+
     let startTime = null;
 
     function animation(currentTime) {
+
       if (startTime === null) startTime = currentTime;
+
       const timeElapsed = currentTime - startTime;
-      
-      // 시원하게 미끄러져서 탁 안착하는 가속도 공식 (Cubic Easing)
-      const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+
+      // cubic easing
+      const run = easeInOutCubic(
+        timeElapsed,
+        startPosition,
+        distance,
+        duration
+      );
+
       window.scrollTo(0, run);
-      
+
       if (timeElapsed < duration) {
         requestAnimationFrame(animation);
       }
+
     }
 
-    // 답답함 없는 깔끔한 속도 곡선 공식
+    // 부드러운 가속도
     function easeInOutCubic(t, b, c, d) {
+
       t /= d / 2;
-      if (t < 1) return c / 2 * t * t * t + b;
+
+      if (t < 1) {
+        return c / 2 * t * t * t + b;
+      }
+
       t -= 2;
+
       return c / 2 * (t * t * t + 2) + b;
+
     }
 
     requestAnimationFrame(animation);
+
   }
 
+  /* ==========================================================================
+     퀵메뉴 클릭 이동
+  ========================================================================== */
+
   items.forEach(function (item) {
+
     item.addEventListener("click", function () {
+
       const targetId = this.getAttribute("data-target");
-      
+
+      /* 맨 위 */
       if (targetId === "top") {
-        // ⚡ 0.3초(300ms)로 빠르게 위로 스르륵
+
         smoothScrollTo(0, 300);
+
       } else {
+
         const targetSection = document.querySelector(targetId);
+
         if (targetSection) {
-          const header = document.querySelector("header") || document.querySelector(".navbar");
+
+          const header =
+            document.querySelector("header") ||
+            document.querySelector(".navbar");
+
           const headerHeight = header ? header.offsetHeight : 0;
 
-          const targetTop = targetSection.getBoundingClientRect().top + window.scrollY;
+          const targetTop =
+            targetSection.getBoundingClientRect().top + window.scrollY;
+
           const windowHeight = window.innerHeight;
+
           const sectionHeight = targetSection.offsetHeight;
 
-          // 상단바 영역 제외한 화면 정중앙 목표치 계산
-          const finalScrollPosition = targetTop - headerHeight - ((windowHeight - headerHeight - sectionHeight) / 2);
+          // 화면 중앙 정렬
+          const finalScrollPosition =
+            targetTop -
+            headerHeight -
+            ((windowHeight - headerHeight - sectionHeight) / 2);
 
-          // ⚡ 0.3초(300ms) 신속하게 정중앙으로 스르륵 안착
           smoothScrollTo(finalScrollPosition, 300);
+
         }
+
       }
+
+      /* 모바일 메뉴 자동 닫기 */
+      if (quickMenu && quickMenu.classList.contains("active")) {
+        quickMenu.classList.remove("active");
+      }
+
     });
+
   });
+
 });
