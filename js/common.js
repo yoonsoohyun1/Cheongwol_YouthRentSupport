@@ -1,242 +1,516 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const header = document.querySelector('#hd');
-
-    // 스크롤 시 실행할 함수
-    const handleScroll = () => {
-        if (window.scrollY > 10) {
-            // 휠을 내렸을 때: 투명 제거, 흰색 배경 및 그림자 추가
-            header.classList.add('bg-white', 'shadow-sm');
-            header.classList.remove('bg-transparent'); // 만약 초기 클래스에 투명이 있다면 제거
-        } else {
-            // 맨 위로 올라왔을 때: 흰색 배경 제거, 투명 추가
-            header.classList.remove('bg-white', 'shadow-sm');
-            // 필요 시 초기 투명 클래스 추가 (예: 헤더가 원래 투명해야 한다면)
-            // header.classList.add('bg-transparent'); 
-        }
-    };
-
-    // 페이지 로드 시점에도 스크롤 위치 확인 (새로고침 대응)
-    handleScroll();
-
-    // 스크롤 이벤트 리스너 등록
-    window.addEventListener('scroll', handleScroll);
-});
-
-
-// !!!!!!!!!!현실섹션 함수!!!!!!!!!!!!!
-
-const seoulGus = ["강남구", "강동구", "강북구", "강서구", "관악구", "광진구", "구로구", "금천구", "노원구", "도봉구", "동대문구", "동작구", "마포구", "서대문구", "서초구", "성동구", "성북구", "송파구", "양천구", "영등포구", "용산구", "은평구", "종로구", "중구", "중랑구"];
-
-const chartColors = {
-    "재직 중": "#cbdffd",
-    "아르바이트/프리랜서": "#fecdf4",
-    "취업 준비 중": "#ffeeb3",
-    "대학(원)생": "#e3ccfe",
-    "무직": "#c1ecc7"
-};
+/* ==========================================================================
+   Header Scroll
+   ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-    initGuDropdown5x5();
-    refreshDataView();
-    initCounterAnimation();
+  const header = document.querySelector("#hd");
+
+  if (!header) return;
+
+  const handleScroll = () => {
+    if (window.scrollY > 10) {
+      header.classList.add("bg-white", "shadow-sm");
+      header.classList.remove("bg-transparent");
+    } else {
+      header.classList.remove("bg-white", "shadow-sm");
+    }
+  };
+
+  handleScroll();
+  window.addEventListener("scroll", handleScroll);
 });
 
+
+/* ==========================================================================
+   현실섹션 / 차트섹션
+   ========================================================================== */
+
+const seoulGus = [
+  "강남구", "강동구", "강북구", "강서구", "관악구",
+  "광진구", "구로구", "금천구", "노원구", "도봉구",
+  "동대문구", "동작구", "마포구", "서대문구", "서초구",
+  "성동구", "성북구", "송파구", "양천구", "영등포구",
+  "용산구", "은평구", "종로구", "중구", "중랑구"
+];
+
+const chartColors = {
+  "재직 중": "#cbdffd",
+  "아르바이트/프리랜서": "#fecdf4",
+  "취업 준비 중": "#ffeeb3",
+  "대학(원)생": "#e3ccfe",
+  "무직": "#c1ecc7"
+};
+
+let currentChartData = [];
+let chartSectionInView = false;
+let metricRowInView = false;
+let chartAnimationFrameId = null;
+
+document.addEventListener("DOMContentLoaded", () => {
+  initGuDropdown5x5();
+  refreshDataView();
+  initChartScrollReplay();
+  initCounterAnimation();
+});
+
+
+/* ==========================================================================
+   구 선택 드롭다운 생성
+   ========================================================================== */
+
 function initGuDropdown5x5() {
-    const guListWrapper = document.getElementById("gu-list");
-    seoulGus.forEach(gu => {
-        const col = document.createElement("div");
-        col.className = "col";
-        col.innerHTML = `<button type="button" class="dropdown-item text-center rounded-2" onclick="selectGu('${gu}')">${gu}</button>`;
-        guListWrapper.appendChild(col);
-    });
+  const guListWrapper = document.getElementById("gu-list");
+  const selectedGu = document.getElementById("selected-gu");
+
+  if (!guListWrapper || !selectedGu) return;
+  if (guListWrapper.dataset.initialized === "true") return;
+
+  seoulGus.forEach((gu) => {
+    const col = document.createElement("div");
+    col.className = "col";
+    col.innerHTML = `
+      <button type="button" class="dropdown-item text-center rounded-2" onclick="selectGu('${gu}')">
+        ${gu}
+      </button>
+    `;
+    guListWrapper.appendChild(col);
+  });
+
+  guListWrapper.dataset.initialized = "true";
+
+  document.querySelectorAll("#gu-list .dropdown-item").forEach((item) => {
+    item.classList.toggle("active", item.innerText.trim() === selectedGu.innerText.trim());
+  });
 }
+
+
+/* ==========================================================================
+   데이터 계산
+   ========================================================================== */
 
 function getFilteredChartData() {
-    const currentGu = document.getElementById("selected-gu").innerText;
-    let seed = currentGu.charCodeAt(0) + (currentGu.charCodeAt(1) || 0);
-    
-    const checkedStatuses = Array.from(document.querySelectorAll(".status-checkbox:checked")).map(cb => cb.value);
-    const mockBase = { "재직 중": 520, "아르바이트/프리랜서": 410, "취업 준비 중": 290, "대학(원)생": 460, "무직": 140 };
-    
-    const result = [];
-    checkedStatuses.forEach((status, index) => {
-        let dynamicValue = mockBase[status] + (seed % (index + 4)) * 25;
-        if (currentGu === "전체") dynamicValue *= 4;
-        
-        result.push({
-            label: status,
-            value: dynamicValue,
-            color: chartColors[status]
-        });
+  const selectedGu = document.getElementById("selected-gu");
+
+  if (!selectedGu) return [];
+
+  const currentGu = selectedGu.innerText.trim();
+  const seed = currentGu.charCodeAt(0) + (currentGu.charCodeAt(1) || 0);
+
+  const checkedStatuses = Array.from(document.querySelectorAll(".status-checkbox:checked")).map((cb) => cb.value);
+
+  const mockBase = {
+    "재직 중": 520,
+    "아르바이트/프리랜서": 410,
+    "취업 준비 중": 290,
+    "대학(원)생": 460,
+    "무직": 140
+  };
+
+  const result = [];
+
+  checkedStatuses.forEach((status, index) => {
+    let dynamicValue = mockBase[status] + (seed % (index + 4)) * 25;
+
+    if (currentGu === "전체") {
+      dynamicValue *= 4;
+    }
+
+    result.push({
+      label: status,
+      value: dynamicValue,
+      color: chartColors[status]
     });
-    return result;
+  });
+
+  return result;
 }
 
+
+/* ==========================================================================
+   필터 선택 함수
+   ========================================================================== */
+
 function selectGu(guName) {
-    document.getElementById("selected-gu").innerText = guName;
-    document.querySelectorAll("#gu-list .dropdown-item").forEach(item => {
-        item.classList.toggle("active", item.innerText === guName);
-    });
-    refreshDataView();
+  const selectedGu = document.getElementById("selected-gu");
+
+  if (!selectedGu) return;
+
+  selectedGu.innerText = guName;
+
+  document.querySelectorAll("#gu-list .dropdown-item").forEach((item) => {
+    item.classList.toggle("active", item.innerText.trim() === guName);
+  });
+
+  refreshDataView();
 }
 
 function selectPeriod(period) {
-    document.getElementById("selected-period").innerText = period;
-    document.querySelectorAll("#chart .dropdown-menu button").forEach(item => {
-        if(item.getAttribute('onclick') && item.getAttribute('onclick').includes('Period')) {
-            item.classList.toggle("active", item.innerText === period);
-        }
-    });
-    refreshDataView();
+  const selectedPeriod = document.getElementById("selected-period");
+
+  if (!selectedPeriod) return;
+
+  selectedPeriod.innerText = period;
+
+  document.querySelectorAll("#chart .dropdown-menu button").forEach((item) => {
+    if (item.getAttribute("onclick") && item.getAttribute("onclick").includes("Period")) {
+      item.classList.toggle("active", item.innerText.trim() === period);
+    }
+  });
+
+  refreshDataView();
 }
 
 function updateStatusFilter() {
-    const checkedValues = Array.from(document.querySelectorAll(".status-checkbox:checked")).map(cb => cb.value);
-    const textTarget = document.getElementById("selected-status");
-    
-    if (checkedValues.length === 5) { textTarget.innerText = "전체"; } 
-    else if (checkedValues.length === 0) { textTarget.innerText = "선택 없음"; } 
-    else { textTarget.innerText = checkedValues.length === 1 ? checkedValues[0] : `${checkedValues[0]} 외 ${checkedValues.length - 1}`; }
-    
-    refreshDataView();
+  const checkedValues = Array.from(document.querySelectorAll(".status-checkbox:checked")).map((cb) => cb.value);
+  const textTarget = document.getElementById("selected-status");
+
+  if (!textTarget) return;
+
+  if (checkedValues.length === 5) {
+    textTarget.innerText = "전체";
+  } else if (checkedValues.length === 0) {
+    textTarget.innerText = "선택 없음";
+  } else {
+    textTarget.innerText = checkedValues.length === 1
+      ? checkedValues[0]
+      : `${checkedValues[0]} 외 ${checkedValues.length - 1}`;
+  }
+
+  refreshDataView();
 }
+
+
+/* ==========================================================================
+   화면 데이터 갱신
+   ========================================================================== */
 
 function refreshDataView() {
-    const currentGu = document.getElementById("selected-gu").innerText;
-    const freshData = getFilteredChartData();
-    
-    renderDonutChartWithAnimation(freshData);
-    
-    document.querySelectorAll(".counter").forEach(counter => {
-        const baseTarget = parseInt(counter.getAttribute("data-target"));
-        let modifier = currentGu.charCodeAt(0) * 3;
-        if(currentGu === "전체") modifier *= 3;
-        
-        const newTarget = Math.max(180, (baseTarget % 900) + modifier);
-        counter.innerText = "1";
-        animateSingleCounter(counter, newTarget, counter.getAttribute("data-suffix"));
-    });
+  currentChartData = getFilteredChartData();
+
+  renderDonutChartWithAnimation(currentChartData);
+  prepareCounters();
+
+  if (metricRowInView) {
+    playCounterAnimation();
+  }
 }
 
-// 💡 [실시간 글자 위치 매칭 드로잉 함수]
-function renderDonutChartWithAnimation(data) {
-    const segmentContainer = document.getElementById("donut-segments");
-    const labelContainer = document.getElementById("chart-labels");
-    segmentContainer.innerHTML = "";
-    labelContainer.innerHTML = "";
-    
-    const total = data.reduce((sum, item) => sum + item.value, 0);
-    if(total === 0) return;
-    
-    const radius = 130; 
-    const circumference = 2 * Math.PI * radius;
-    let accumulatedPercent = 0;
-    
-    const elementsToAnimate = [];
+function prepareCounters() {
+  const selectedGu = document.getElementById("selected-gu");
 
-    data.forEach(item => {
-        const percent = item.value / total;
-        
-        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("class", "donut-segment");
-        circle.setAttribute("cx", "250");
-        circle.setAttribute("cy", "250");
-        circle.setAttribute("r", String(radius));
-        circle.setAttribute("stroke", item.color);
-        
-        circle.style.strokeDasharray = `${circumference} ${circumference}`;
-        circle.style.strokeDashoffset = String(circumference);
-        
-        segmentContainer.appendChild(circle);
-        
-        // 💡 [동적 각도 계산 기법] 각 도넛 조각의 시작점과 끝점 사이 '정중앙 각도'를 구합니다.
-        const midPercent = accumulatedPercent + (percent / 2);
-        const angle = (midPercent * 2 * Math.PI) - (Math.PI / 2); // 12시 시작점 보정(-Math.PI/2)
-        
-        // 💡 [그래프와 확실히 떨어뜨리기] 반지름이 130이고 고리 두께가 100(안팎으로 50씩)이므로, 
-        // 중심에서 195px만큼 밀어내면 도넛 바깥선에서 정확히 기분 좋게 붕 뜹니다.
-        const labelRadius = 195; 
-        const posX = 250 + labelRadius * Math.cos(angle);
-        const posY = 250 + labelRadius * Math.sin(angle);
-        
-        const labelDiv = document.createElement("div");
-        labelDiv.setAttribute("class", "position-absolute chart-label-item");
-        labelDiv.style.left = `${(posX / 500) * 100}%`;
-        labelDiv.style.top = `${(posY / 500) * 100}%`;
-        labelDiv.style.setProperty('--segment-color', item.color);
-        labelDiv.innerHTML = `${item.label}<span class="chart-label-num">${item.value}명</span>`;
-        labelContainer.appendChild(labelDiv);
-        
-        elementsToAnimate.push({
-            element: circle,
-            label: labelDiv,
-            percent: percent,
-            finalShift: -circumference * accumulatedPercent
-        });
-        
-        accumulatedPercent += percent;
-    });
+  if (!selectedGu) return;
 
-    let startTimestamp = null;
-    const duration = 900; 
+  const currentGu = selectedGu.innerText.trim();
 
-    function step(timestamp) {
-        if (!startTimestamp) startTimestamp = timestamp;
-        const elapsed = timestamp - startTimestamp;
-        const progress = Math.min(elapsed / duration, 1);
-        const ease = progress * (2 - progress);
+  document.querySelectorAll(".counter").forEach((counter) => {
+    const baseTarget = parseInt(counter.getAttribute("data-target"), 10);
+    const suffix = counter.getAttribute("data-suffix") || "";
 
-        elementsToAnimate.forEach(obj => {
-            const currentLength = circumference * obj.percent * ease;
-            obj.element.style.strokeDasharray = `${currentLength} ${circumference}`;
-            obj.element.style.strokeDashoffset = String(obj.finalShift);
-        });
+    let modifier = currentGu.charCodeAt(0) * 3;
 
-        if (progress < 1) {
-            requestAnimationFrame(step);
-        } else {
-            elementsToAnimate.forEach(obj => obj.label.classList.add("show"));
-        }
+    if (currentGu === "전체") {
+      modifier *= 3;
     }
-    requestAnimationFrame(step);
+
+    const newTarget = Math.max(180, (baseTarget % 900) + modifier);
+
+    counter.dataset.currentTarget = newTarget;
+    counter.dataset.currentSuffix = suffix;
+
+    if (!metricRowInView) {
+      counter.textContent = `1${suffix}`;
+    }
+  });
 }
+
+
+/* ==========================================================================
+   차트 스크롤 재실행
+   ========================================================================== */
+
+function initChartScrollReplay() {
+  const chartSection = document.getElementById("chart");
+
+  if (!chartSection) return;
+
+  if ("IntersectionObserver" in window) {
+    const chartObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (!chartSectionInView) {
+            chartSectionInView = true;
+            replayChartAnimation();
+          }
+        } else {
+          chartSectionInView = false;
+        }
+      });
+    }, {
+      threshold: 0.25
+    });
+
+    chartObserver.observe(chartSection);
+  } else {
+    replayChartAnimation();
+  }
+}
+
+function replayChartAnimation() {
+  currentChartData = getFilteredChartData();
+  renderDonutChartWithAnimation(currentChartData);
+}
+
+
+/* ==========================================================================
+   도넛 차트 애니메이션
+   ========================================================================== */
+
+function renderDonutChartWithAnimation(data) {
+  const segmentContainer = document.getElementById("donut-segments");
+  const labelContainer = document.getElementById("chart-labels");
+
+  if (!segmentContainer || !labelContainer) return;
+
+  if (chartAnimationFrameId) {
+    cancelAnimationFrame(chartAnimationFrameId);
+    chartAnimationFrameId = null;
+  }
+
+  segmentContainer.innerHTML = "";
+  labelContainer.innerHTML = "";
+
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+
+  if (total === 0) return;
+
+  const radius = 130;
+  const circumference = 2 * Math.PI * radius;
+  let accumulatedPercent = 0;
+
+  const elementsToAnimate = [];
+
+  data.forEach((item) => {
+    const percent = item.value / total;
+
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+
+    circle.setAttribute("class", "donut-segment");
+    circle.setAttribute("cx", "250");
+    circle.setAttribute("cy", "250");
+    circle.setAttribute("r", String(radius));
+    circle.setAttribute("stroke", item.color);
+
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = String(circumference);
+
+    segmentContainer.appendChild(circle);
+
+    const midPercent = accumulatedPercent + percent / 2;
+    const angle = midPercent * 2 * Math.PI - Math.PI / 2;
+
+    const labelRadius = 195;
+    const posX = 250 + labelRadius * Math.cos(angle);
+    const posY = 250 + labelRadius * Math.sin(angle);
+
+    const labelDiv = document.createElement("div");
+
+    labelDiv.setAttribute(
+      "class",
+      "position-absolute chart-label-item d-inline-flex align-items-center gap-1 text-nowrap"
+    );
+
+    labelDiv.style.left = `${(posX / 500) * 100}%`;
+    labelDiv.style.top = `${(posY / 500) * 100}%`;
+    labelDiv.style.setProperty("--segment-color", item.color);
+
+    labelDiv.innerHTML = `
+      <span class="chart-label-name d-inline-block text-nowrap">${item.label}</span>
+      <span class="chart-label-num d-inline-flex align-items-center justify-content-center rounded-pill px-2 py-1 text-nowrap">${item.value}명</span>
+    `;
+
+    labelContainer.appendChild(labelDiv);
+
+    elementsToAnimate.push({
+      element: circle,
+      label: labelDiv,
+      percent: percent,
+      finalShift: -circumference * accumulatedPercent
+    });
+
+    accumulatedPercent += percent;
+  });
+
+  let startTimestamp = null;
+  const duration = 900;
+
+  function step(timestamp) {
+    if (!startTimestamp) startTimestamp = timestamp;
+
+    const elapsed = timestamp - startTimestamp;
+    const progress = Math.min(elapsed / duration, 1);
+    const ease = progress * (2 - progress);
+
+    elementsToAnimate.forEach((obj) => {
+      const currentLength = circumference * obj.percent * ease;
+      obj.element.style.strokeDasharray = `${currentLength} ${circumference}`;
+      obj.element.style.strokeDashoffset = String(obj.finalShift);
+    });
+
+    if (progress < 1) {
+      chartAnimationFrameId = requestAnimationFrame(step);
+    } else {
+      elementsToAnimate.forEach((obj) => {
+        obj.label.classList.add("show");
+      });
+
+      chartAnimationFrameId = null;
+    }
+  }
+
+  chartAnimationFrameId = requestAnimationFrame(step);
+}
+
+
+/* ==========================================================================
+   숫자 카운터 스크롤 재실행
+   ========================================================================== */
 
 function initCounterAnimation() {
-    document.querySelectorAll(".counter").forEach(counter => {
-        const target = parseInt(counter.getAttribute("data-target"));
-        const suffix = counter.getAttribute("data-suffix");
-        animateSingleCounter(counter, target, suffix);
+  const metricRow = document.querySelector(".metric-row");
+
+  if (!metricRow) return;
+
+  if ("IntersectionObserver" in window) {
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (!metricRowInView) {
+            metricRowInView = true;
+            playCounterAnimation();
+          }
+        } else {
+          metricRowInView = false;
+        }
+      });
+    }, {
+      threshold: 0.35
     });
+
+    counterObserver.observe(metricRow);
+  } else {
+    metricRowInView = true;
+    playCounterAnimation();
+  }
 }
+
+function playCounterAnimation() {
+  document.querySelectorAll(".counter").forEach((counter) => {
+    const target = parseInt(counter.dataset.currentTarget || counter.getAttribute("data-target"), 10);
+    const suffix = counter.dataset.currentSuffix || counter.getAttribute("data-suffix") || "";
+
+    animateSingleCounter(counter, target, suffix);
+  });
+}
+
+
+/* ==========================================================================
+   숫자만 드르륵 굴러가는 효과
+   ========================================================================== */
 
 function animateSingleCounter(element, target, suffix) {
-    let start = 1;
-    const duration = 800; 
-    const startTime = performance.now();
-    
-    function updateNumber(currentTime) {
-        const elapsedTime = currentTime - startTime;
-        if (elapsedTime >= duration) {
-            element.innerText = target.toLocaleString() + suffix;
-        } else {
-            const progress = elapsedTime / duration;
-            const easeOutProgress = progress * (2 - progress);
-            const currentNumber = Math.floor(easeOutProgress * (target - start) + start);
-            element.innerText = currentNumber.toLocaleString() + suffix;
-            requestAnimationFrame(updateNumber);
-        }
+  if (!element || Number.isNaN(target)) return;
+
+  const formattedNumber = target.toLocaleString();
+  const numberParts = formattedNumber.split("");
+  const duration = 900;
+
+  element.innerHTML = "";
+
+  element.classList.add(
+    "d-inline-flex",
+    "align-items-center",
+    "justify-content-center",
+    "counter-roll"
+  );
+
+  numberParts.forEach((char, index) => {
+    if (char === ",") {
+      const comma = document.createElement("span");
+
+      comma.className = "counter-comma d-inline-flex align-items-center justify-content-center";
+      comma.textContent = ",";
+      comma.style.width = "0.3em";
+      comma.style.height = "1em";
+      comma.style.lineHeight = "1";
+
+      element.appendChild(comma);
+      return;
     }
-    requestAnimationFrame(updateNumber);
+
+    const digitWrap = document.createElement("span");
+
+    digitWrap.className = "counter-digit-wrap d-inline-block overflow-hidden";
+    digitWrap.style.width = "0.62em";
+    digitWrap.style.height = "1em";
+    digitWrap.style.overflow = "hidden";
+    digitWrap.style.display = "inline-block";
+    digitWrap.style.lineHeight = "1";
+    digitWrap.style.verticalAlign = "middle";
+
+    const digitStrip = document.createElement("span");
+
+    digitStrip.className = "counter-digit-strip d-flex flex-column";
+    digitStrip.style.display = "flex";
+    digitStrip.style.flexDirection = "column";
+    digitStrip.style.transform = "translate3d(0, 0, 0)";
+    digitStrip.style.willChange = "transform";
+
+    for (let i = 0; i <= 9; i++) {
+      const digit = document.createElement("span");
+
+      digit.className = "counter-digit d-flex align-items-center justify-content-center";
+      digit.textContent = i;
+      digit.style.height = "1em";
+      digit.style.minHeight = "1em";
+      digit.style.lineHeight = "1";
+
+      digitStrip.appendChild(digit);
+    }
+
+    digitWrap.appendChild(digitStrip);
+    element.appendChild(digitWrap);
+
+    const targetDigit = parseInt(char, 10);
+    const delay = index * 70;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        digitStrip.style.transition = `transform ${duration}ms cubic-bezier(0.2, 0.8, 0.2, 1) ${delay}ms`;
+        digitStrip.style.transform = `translate3d(0, -${targetDigit}em, 0)`;
+      });
+    });
+  });
+
+  if (suffix) {
+    const suffixSpan = document.createElement("span");
+
+    suffixSpan.className = "counter-suffix d-inline-flex align-items-center";
+    suffixSpan.textContent = suffix;
+    suffixSpan.style.marginLeft = "0.08em";
+    suffixSpan.style.lineHeight = "1";
+
+    element.appendChild(suffixSpan);
+  }
 }
 
 
-
-
+/* ==========================================================================
+   Quick Menu Smooth Scroll
+   ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", function () {
   const items = document.querySelectorAll("#quick .quick-item[data-target], #quick .btn-top[data-target]");
-  
-  // ⚡ 속도감을 올린 고속 스르륵 애니메이션 함수
+
   function smoothScrollTo(targetPosition, duration) {
     const startPosition = window.scrollY || document.documentElement.scrollTop;
     const distance = targetPosition - startPosition;
@@ -244,21 +518,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function animation(currentTime) {
       if (startTime === null) startTime = currentTime;
+
       const timeElapsed = currentTime - startTime;
-      
-      // 시원하게 미끄러져서 탁 안착하는 가속도 공식 (Cubic Easing)
       const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+
       window.scrollTo(0, run);
-      
+
       if (timeElapsed < duration) {
         requestAnimationFrame(animation);
       }
     }
 
-    // 답답함 없는 깔끔한 속도 곡선 공식
     function easeInOutCubic(t, b, c, d) {
       t /= d / 2;
+
       if (t < 1) return c / 2 * t * t * t + b;
+
       t -= 2;
       return c / 2 * (t * t * t + 2) + b;
     }
@@ -269,27 +544,26 @@ document.addEventListener("DOMContentLoaded", function () {
   items.forEach(function (item) {
     item.addEventListener("click", function () {
       const targetId = this.getAttribute("data-target");
-      
+
       if (targetId === "top") {
-        // ⚡ 0.3초(300ms)로 빠르게 위로 스르륵
         smoothScrollTo(0, 300);
-      } else {
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) {
-          const header = document.querySelector("header") || document.querySelector(".navbar");
-          const headerHeight = header ? header.offsetHeight : 0;
-
-          const targetTop = targetSection.getBoundingClientRect().top + window.scrollY;
-          const windowHeight = window.innerHeight;
-          const sectionHeight = targetSection.offsetHeight;
-
-          // 상단바 영역 제외한 화면 정중앙 목표치 계산
-          const finalScrollPosition = targetTop - headerHeight - ((windowHeight - headerHeight - sectionHeight) / 2);
-
-          // ⚡ 0.3초(300ms) 신속하게 정중앙으로 스르륵 안착
-          smoothScrollTo(finalScrollPosition, 300);
-        }
+        return;
       }
+
+      const targetSection = document.querySelector(targetId);
+
+      if (!targetSection) return;
+
+      const header = document.querySelector("header") || document.querySelector(".navbar");
+      const headerHeight = header ? header.offsetHeight : 0;
+
+      const targetTop = targetSection.getBoundingClientRect().top + window.scrollY;
+      const windowHeight = window.innerHeight;
+      const sectionHeight = targetSection.offsetHeight;
+
+      const finalScrollPosition = targetTop - headerHeight - ((windowHeight - headerHeight - sectionHeight) / 2);
+
+      smoothScrollTo(finalScrollPosition, 300);
     });
   });
 });

@@ -165,207 +165,314 @@
    현실 섹션
    ========================================================================== */
 
-/* #real {
-    background-color: var(--color-bg-light);
-} */
-
-/* 카드 크기 */
 #real .reality-card {
-    border-radius: 30px;
-    padding: 25px 15px; /* 카드 내부 좌우 여백 */
+  width: 100%;
+  border-radius: 30px;
+  padding: 25px 15px;
+  background-color: var(--color-white);
+  box-shadow: var(--shadow-card);
 }
 
-/* 아이콘 크기 */
 #real .reality-card img {
-    width: 115px;
-    height: 115px;
-    object-fit: contain;
-    margin-right: 20px; /* 아이콘과 텍스트 사이 간격 */
+  width: 115px;
+  height: 115px;
+  object-fit: contain;
 }
 
-
-/* 카드 타이틀 */
 #real .card-stat {
-    font-size: 30px;         
-    color: var(--color-primary);          
-    font-weight: 500;        
-    margin-bottom: 10px;      
-    line-height: 1.2;
+  margin-bottom: 10px;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--color-primary);
 }
 
-/* 카드 설명 글 */
 #real .card-desc {
-    font-size: 20px;          /* 폰트 크기 */
-    color: var(--color-text-main);           /* 폰트 색상 */
-    font-weight: 400;         /* 폰트 굵기 */
-    line-height: 1.2;         /* 행간 */
-    margin-bottom: 0;         /* 부트스트랩 기본 p태그 마진 리셋 */
+  margin-bottom: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--color-text-main);
 }
 
-
-/* 현실섹션 반응형 모바일 브레이크 포인트 (가로폭 좁은 화면 대응) */
-   
-@media (max-width: 1400px) {
-    #real { padding-left: 80px !important; padding-right: 80px !important; }
+#real .real-building-img {
+  max-width: 100%;
+  height: auto;
 }
-
-@media (max-width: 1199px) {
-    /* 화면이 아주 작아질 때 카드가 삐져나가지 않도록 유연하게 리셋 */
-    #real .reality-card { width: 100%; max-width: 444px; }
-}
-
-@media (max-width: 768px) {
-    #real { padding-left: 24px !important; padding-right: 24px !important; }
-}
-
 
 /* ==========================================================================
-   지역별 지원 현황 섹션 (#chart)
+   지역별 지원 현황 섹션
    ========================================================================== */
 
-/* 필터버튼 */
-/* #chart {
-    background-color: var(--color-bg-light);
-} */
-
+/* 필터 버튼 */
 #chart .filter-box {
-    border: none;
-    font-size: 15px;
-    font-weight: 300;
-    color: var(--color-text-faq);
-    cursor: pointer;
-    transition: all 0.2s ease;
+  border: none;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--color-text-faq);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
+#chart .filter-box:hover {
+  transform: translateY(-2px);
+}
+
 #chart .dropdown-toggle::after {
-    margin-left: 8px;
-    vertical-align: middle;
-    color: var(--color-primary);
+  margin-left: 8px;
+  vertical-align: middle;
+  color: var(--color-primary);
 }
 
-/* 필터 선택창 */
+/* 필터 드롭다운 */
 #chart .dropdown-menu {
-    opacity: 0;
-    transform: translateY(10px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    margin-top: 45px !important;
-}
-#chart .dropdown-menu.show {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-top: 12px !important;
 }
 
-/* 5x5 구 선택 필터 내부 스타일 */
-#chart #gu-list .dropdown-item {
-    font-size: 14px;
-    padding: 6px 2px;
-    border: 1px solid #f1f3f5;
-    background: #f8f9fa;
+#chart .dropdown-menu.show {
+  opacity: 1;
+  transform: translateY(0);
 }
+
+/* 구 선택 필터 */
+#chart #gu-list .dropdown-item {
+  font-size: 14px;
+  padding: 6px 2px;
+  border: 1px solid var(--color-blue-line-soft);
+  background-color: var(--color-bg-light);
+}
+
 #chart #gu-list .dropdown-item:hover,
 #chart #gu-list .dropdown-item.active {
-    background-color: var(--color-primary) !important;
-    color: #fff !important;
-    border-color: var(--color-primary);
+  background-color: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  border-color: var(--color-primary);
 }
 
-/* 그래프 뒤 배경상자 */
+/* 차트 패널 */
 #chart .chart-panel {
-    width: 100%;
-    max-width: 600px;
-    height: 440px;
-    background-color: rgba(255, 255, 255, 0.6) !important;
+  width: 100%;
+  max-width: 600px;
+  min-height: 440px;
+  background-color: var(--color-white-55) !important;
+  overflow: hidden;
 }
+
 #chart .donut-chart {
-    width: 380px;
-    height: 380px;
-    transform: rotate(-90deg);
+  width: 100%;
+  max-width: 380px;
+  height: auto;
+  transform: rotate(-90deg);
 }
 
-/* 그래프 스타일 */
+/* 도넛 차트 */
 #chart .donut-segment {
-    fill: none;
-    stroke-width: 100; 
-    transition: stroke 0.3s ease;
+  fill: none;
+  stroke-width: 100;
+  transition: stroke 0.3s ease;
 }
 
-/* 그래프 글자 스타일 */
+/* 차트 라벨 */
 #chart .chart-label-item {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--color-text-faq);
-    white-space: nowrap;
-    opacity: 0;
-    position: absolute;
-    display: inline-flex;
-    align-items: center;
-    transition: opacity 0.4s ease, left 0.4s ease, top 0.4s ease, transform 0.4s ease;
-    transform: translate(-50%, -50%);
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-faq);
+  transition:
+    opacity 0.4s ease,
+    left 0.4s ease,
+    top 0.4s ease,
+    transform 0.4s ease;
 }
+
 #chart .chart-label-item.show {
-    opacity: 1;
+  opacity: 1;
 }
 
-/* 글자 왼쪽 색상 매칭 도트 */
 #chart .chart-label-item::before {
-    content: "";
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background-color: var(--segment-color, var(--color-primary));
-    margin-right: 6px;
-    display: inline-block;
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background-color: var(--segment-color, var(--color-primary));
 }
 
-/* 그래프 숫자 스타일 */
 #chart .chart-label-num {
-    font-size: 11px;
-    color: var(--color-text-faq);
-    font-weight: 500;
-    background: #f1f3f5;
-    padding: 2px 6px;
-    border-radius: 10px;
-    margin-left: 5px;
+  margin-left: 5px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background-color: var(--color-blue-line-soft);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-faq);
 }
 
-/* 하단 세로 분할선 */
+/* 하단 지표 */
 #chart .metric-col:not(:last-child)::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 25%;
-    width: 1px;
-    height: 50%;
-    background-color: #dee2e6;
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 25%;
+  width: 1px;
+  height: 50%;
+  background-color: var(--color-blue-line);
 }
-
-/* SVG 아이콘 */
 
 #chart .metric-title {
-    font-size: 13px;
-    color: #6c757d;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-sub);
 }
 
 #chart .metric-value {
-    font-size: 26px;
-    color: #212529;
+  font-size: 26px;
+  color: var(--color-text-main);
 }
 
 #chart .map-icon img {
-    width: 24px;
-    height: 22.5px;
-    display: block;
+  width: 24px;
+  height: 22.5px;
+  display: block;
 }
 
-/* 타이틀 폰트 보드 */
-/* #chart .section-title { font-size: 32px; color: var(--color-primary); line-height: 1.35; }
-#chart .section-desc { font-size: 15px; color: var(--color-text-faq); } */
-#chart .metric-title { font-size: 13px; color: #6c757d; font-weight: 500; }
-#chart .metric-value { font-size: 26px; color: #212529; }
+/* ==========================================================================
+   Reality & Chart Responsive
+   Bootstrap으로 안 되는 시각 요소만 보정
+   ========================================================================== */
 
 @media (max-width: 991px) {
-    #chart .content-row { text-align: center !important; }
-    #chart .content-row .text-start { text-align: center !important; margin-bottom: 2rem; }
-    #chart .metric-col::after { display: none; }
+  #real .reality-card img {
+    width: 96px;
+    height: 96px;
+  }
+
+  #real .card-stat {
+    font-size: 26px;
+  }
+
+  #real .card-desc {
+    font-size: 18px;
+  }
+
+  #chart .metric-col::after {
+    display: none;
+  }
+}
+
+@media (max-width: 767px) {
+  #real .reality-card {
+    padding: 22px 18px;
+  }
+
+  #real .reality-card img {
+    width: 82px;
+    height: 82px;
+  }
+
+  #real .card-stat {
+    font-size: 24px;
+  }
+
+  #real .card-desc {
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  #chart .chart-panel {
+    min-height: 300px;
+  }
+
+  #chart .donut-chart {
+    max-width: 300px;
+  }
+
+  #chart .chart-label-item {
+    font-size: 11px;
+  }
+
+  #chart .chart-label-num {
+    font-size: 10px;
+  }
+
+  #chart .metric-col {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+
+@media (max-width: 575px) {
+  #real .reality-card {
+    border-radius: 24px;
+  }
+
+  #real .reality-card img {
+    width: 72px;
+    height: 72px;
+  }
+
+  #real .card-stat {
+    font-size: 22px;
+  }
+
+  #real .card-desc {
+    font-size: 15px;
+  }
+
+  #chart .filter-box {
+    font-size: 14px;
+  }
+
+  #chart .chart-panel {
+    min-height: 260px;
+  }
+
+  #chart .donut-chart {
+    max-width: 260px;
+  }
+
+  #chart .metric-value {
+    font-size: 24px;
+  }
+}
+
+/* ==========================================================================
+   Chart Label Mobile Line Break
+   모바일에서 차트 라벨의 인원 수를 다음 줄로 내리기
+   ========================================================================== */
+
+@media (max-width: 575px) {
+  #chart .chart-label-item {
+    max-width: 86px;
+    white-space: normal;
+    line-height: 1.25;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 2px 4px;
+  }
+
+  #chart .chart-label-item::before {
+    flex: 0 0 auto;
+    margin-top: 4px;
+  }
+
+  #chart .chart-label-num {
+    display: block;
+    width: fit-content;
+    margin-left: 15px;
+    margin-top: 3px;
+    font-size: 10px;
+    line-height: 1.2;
+  }
 }
 
 
