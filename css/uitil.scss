@@ -1,0 +1,17 @@
+// 1부터 9까지 반복하면서 100을 곱해 두께를 계산합니다.
+@for $i from 1 through 9 {
+  $weight: $i * 100;
+
+  .fw-#{$weight} {
+    font-weight: $weight !important; // 다른 스타일에 덮히지 않도록 주로 !important를 붙여 유틸리티 클래스로 사용합니다. (선택사항)
+  }
+}
+
+// 10부터 50까지 1씩 증가하면서 반복합니다. (10, 11, 12 ... 49, 50)
+@for $num from 10 through 50 {
+  $value: calc($num / 10); // 숫자를 10으로 나눠서 소수점 값으로 변환 (예: 18 -> 1.8)
+
+  .lh-#{$num} {
+    line-height: $value !important;
+  }
+}
