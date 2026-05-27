@@ -32,3 +32,36 @@ document.addEventListener("DOMContentLoaded", function () {
     observer.observe(section);
   });
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const videoFrames = document.querySelectorAll(".video-frame");
+
+  videoFrames.forEach(function (frame) {
+    const video = frame.querySelector(".video-guide-video");
+    const playButton = frame.querySelector(".video-play-button");
+
+    if (!video || !playButton) return;
+
+    playButton.addEventListener("click", function () {
+      video.play();
+      video.setAttribute("controls", "controls");
+      frame.classList.add("is-playing");
+    });
+
+    video.addEventListener("play", function () {
+      video.setAttribute("controls", "controls");
+      frame.classList.add("is-playing");
+    });
+
+    video.addEventListener("pause", function () {
+      frame.classList.remove("is-playing");
+    });
+
+    video.addEventListener("ended", function () {
+      frame.classList.remove("is-playing");
+      video.removeAttribute("controls");
+      video.currentTime = 0;
+    });
+  });
+});

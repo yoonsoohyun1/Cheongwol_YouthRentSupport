@@ -740,6 +740,155 @@ body.motion-ready .process-section.is-motion .process-timeline-line::after {
   }
 
 
+  /* ===============================
+   Video Guide Section
+================================ */
+.video-guide-section {
+  background-color: var(--color-white);
+}
+
+.video-guide-head {
+  text-align: left;
+}
+
+.video-guide-title {
+  font-size: 48px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+  color: var(--color-primary);
+}
+
+.video-guide-desc {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.7;
+  color: var(--color-text-main);
+}
+
+/* Video Frame */
+.video-frame {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  background-color: var(--color-bg-light);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+/* Actual Video */
+.video-guide-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 7.8;
+  object-fit: cover;
+  background-color: var(--color-bg-light);
+}
+
+/* Center Play Button */
+.video-play-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  border: 5px solid var(--color-white);
+
+  background-color: rgba(255, 255, 255, 0.42);
+  backdrop-filter: blur(5px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 3;
+
+  transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+}
+
+.video-play-button:hover {
+  background-color: rgba(28, 106, 239, 0.82);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* Triangle Icon */
+.video-play-icon {
+  width: 0;
+  height: 0;
+
+  border-top: 18px solid transparent;
+  border-bottom: 18px solid transparent;
+  border-left: 28px solid var(--color-white);
+
+  transform: translateX(4px);
+}
+
+/* Playing State */
+.video-frame.is-playing .video-play-button {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   Video Guide Responsive
+================================ */
+@media (max-width: 992px) {
+  .video-guide-title {
+    font-size: 40px;
+  }
+
+  .video-guide-desc {
+    font-size: 16px;
+  }
+
+  .video-guide-video {
+    aspect-ratio: 16 / 9;
+  }
+
+  .video-play-button {
+    width: 78px;
+    height: 78px;
+  }
+
+  .video-play-icon {
+    border-top-width: 15px;
+    border-bottom-width: 15px;
+    border-left-width: 23px;
+  }
+}
+
+@media (max-width: 576px) {
+  .video-guide-title {
+    font-size: 32px;
+  }
+
+  .video-guide-desc {
+    font-size: 15px;
+  }
+
+  .video-guide-video {
+    aspect-ratio: 16 / 10;
+  }
+
+  .video-play-button {
+    width: 64px;
+    height: 64px;
+    border-width: 4px;
+  }
+
+  .video-play-icon {
+    border-top-width: 12px;
+    border-bottom-width: 12px;
+    border-left-width: 18px;
+  }
+}
+
 
 
 /* ===============================
